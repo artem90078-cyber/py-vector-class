@@ -52,7 +52,6 @@ class Vector:
         angle = abs(math.degrees(math.atan2(self.x, self.y)))
         return round(angle)
 
-
     def rotate(self, degrees: float) -> "Vector":
         rad = math.radians(degrees)
         cos_val = math.cos(rad)
