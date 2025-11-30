@@ -13,12 +13,10 @@ class Vector:
     def __sub__(self, other: "Vector") -> "Vector":
         return Vector(self.x - other.x, self.y - other.y)
 
-    # E501: Разбиты длинные строки аннотации
-    def __mul__(self, other: Union["Vector", int, float]) \
-            -> Union["Vector", float]:
+    def __mul__(self, other: Union["Vector", int, float]) -> Union["Vector", float]:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
-        return round(self.x * other.x + self.y * other.y, 4)
+        return self.x * other.x + self.y * other.y
 
     @classmethod
     def create_vector_by_two_points(
@@ -48,7 +46,10 @@ class Vector:
         return round(math.degrees(math.acos(cos_a)))
 
     def get_angle(self) -> float:
-        return round(math.degrees(math.atan2(self.x, self.y)))
+        angle = math.degrees(math.atan2(self.y, self.x))
+        if angle < 0:
+            angle = -angle
+        return round(angle)
 
     def rotate(self, degrees: float) -> "Vector":
         rad = math.radians(degrees)
