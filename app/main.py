@@ -1,38 +1,38 @@
 import math
-# noqa: VNE001
+
 
 class Vector:
     def __init__(self, x: float, y: float) -> None:
         self.x = round(float(x), 2)
         self.y = round(float(y), 2)
 
-    def __add__(self, other):
+    def __add__(self, other: "Vector") -> "Vector":
         return Vector(self.x + other.x, self.y + other.y)
 
-    def __sub__(self, other):
+    def __sub__(self, other: "Vector") -> "Vector":
         return Vector(self.x - other.x, self.y - other.y)
 
-    def __mul__(self, other):
+    def __mul__(self, other: "Vector" | int | float) -> "Vector" | float:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         return round(self.x * other.x + self.y * other.y, 4)
 
     @classmethod
-    def create_vector_by_two_points(cls, start_point, end_point):
-        sx, sy = start_point
-        ex, ey = end_point
-        return cls(ex - sx, ey - sy)
+    def create_vector_by_two_points(cls, start_point: tuple[float, float], end_point: tuple[float, float]) -> "Vector":
+        start_x, start_y = start_point
+        end_x, end_y = end_point
+        return cls(end_x - start_x, end_y - start_y)
 
-    def get_length(self):
+    def get_length(self) -> float:
         return math.sqrt(self.x ** 2 + self.y ** 2)
 
-    def get_normalized(self):
+    def get_normalized(self) -> "Vector":
         length = self.get_length()
         if length == 0:
             return Vector(0, 0)
         return Vector(self.x / length, self.y / length)
 
-    def angle_between(self, other):
+    def angle_between(self, other: "Vector") -> float:
         dot = self.x * other.x + self.y * other.y
         m1 = self.get_length()
         m2 = other.get_length()
@@ -42,13 +42,13 @@ class Vector:
         cos_a = max(-1, min(1, cos_a))
         return round(math.degrees(math.acos(cos_a)))
 
-    def get_angle(self):
+    def get_angle(self) -> float:
         return round(math.degrees(math.atan2(self.x, self.y)))
 
-    def rotate(self, degrees):
+    def rotate(self, degrees: float) -> "Vector":
         rad = math.radians(degrees)
-        c = math.cos(rad)
-        s = math.sin(rad)
-        x = self.x * c - self.y * s
-        y = self.x * s + self.y * c
-        return Vector(x, y)
+        cos_val = math.cos(rad)
+        sin_val = math.sin(rad)
+        new_x = self.x * cos_val - self.y * sin_val
+        new_y = self.x * sin_val + self.y * cos_val
+        return Vector(new_x, new_y)
