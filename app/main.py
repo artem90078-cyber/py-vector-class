@@ -13,8 +13,9 @@ class Vector:
     def __sub__(self, other: "Vector") -> "Vector":
         return Vector(self.x - other.x, self.y - other.y)
 
-    # Исправлено: Заменено | на Union[] для совместимости с аннотациями-строками
-    def __mul__(self, other: Union["Vector", int, float]) -> Union["Vector", float]:
+    # E501: Разбиты длинные строки аннотации
+    def __mul__(self, other: Union["Vector", int, float]) \
+            -> Union["Vector", float]:
         if isinstance(other, (int, float)):
             return Vector(self.x * other, self.y * other)
         return round(self.x * other.x + self.y * other.y, 4)
